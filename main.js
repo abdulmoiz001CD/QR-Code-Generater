@@ -8,6 +8,12 @@ inputEl = document.getElementById("input");
 
 const btnEl = document.getElementById("btn");
 
+const Qrlink = document.getElementById("Qrlink");
+
+const QrUrlEl  = document.getElementById("QrUrl");
+
+const pTagEl = document.getElementById("pTag");
+
 // Show Data In Front
 
 
@@ -17,21 +23,43 @@ const ShowQRCodeFront = (url) => {
 
     btnEl.innerText = "Generating QR Code...."
     madeQrImg.src = url;
-
+    QrUrlEl.innerText= url;
+   
 
    const onloadpage = () => {
- 
-
-    const setTimeInterval =  setInterval(() => {
+       const setTimeInterval =  setInterval(() => {
+        QrUrlEl.style.display="block"
         QRConatinnerEl.classList.add("show");
         clearInterval(setTimeInterval);
         btnEl.innerText = "Generate QR Code";
+       
     }, 500)
         
    };
 
    madeQrImg.addEventListener("load",onloadpage);
+
+
+
+
+    const copyClipboard = () => { 
+    const elemnt = QrUrlEl;
+    navigator.clipboard.writeText(elemnt.innerText).then(()=> {
+       alert("Link Copied to Clipboard");
+    })
+
+}
+
+
+QrUrlEl.addEventListener("click",copyClipboard);
+
+
+
 };
+
+
+
+
 
 
 
@@ -42,6 +70,7 @@ const  InputEmptyReset = () => {
  
 if(!inputEl.value.trim()){
 QRConatinnerEl.classList.remove("show")
+QrUrlEl.style.display="none"
 }
 }
 
@@ -61,7 +90,7 @@ const GetFornData = (event) => {
 
     const MadeQRCode = 
     `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${formdataStored}`; 
-    
+   
 
     ShowQRCodeFront(MadeQRCode);
     
@@ -70,9 +99,6 @@ const GetFornData = (event) => {
 
 
 formContainerEl.addEventListener("submit", GetFornData)
-
-
-
 
 
 
